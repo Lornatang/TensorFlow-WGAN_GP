@@ -26,7 +26,7 @@ def make_generator_model():
 
   """
   model = tf.keras.Sequential()
-  model.add(layers.Dense(8 * 8 * 256, use_bias=False, input_shape=[32, ]))
+  model.add(layers.Dense(8 * 8 * 256, use_bias=False, input_shape=[256, ]))
   model.add(layers.BatchNormalization())
   model.add(layers.LeakyReLU())
 
