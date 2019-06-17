@@ -39,7 +39,7 @@ if not os.path.exists(save_path):
   os.makedirs(save_path)
 
 # define random noise
-noise = tf.random.normal([16, 128])
+noise = tf.random.normal([16, 256])
 
 # load dataset
 train_dataset = load_data()
@@ -85,7 +85,7 @@ def train(dataset, epochs):
                              save_path)
 
     # Save the model every 15 epochs
-    if (epoch + 1) % 3 == 0:
+    if (epoch + 1) % 15 == 0:
       checkpoint.save(file_prefix=checkpoint_prefix)
 
     print(f'Time for epoch {epoch + 1} is {time.time() - start:.3f} sec.')
