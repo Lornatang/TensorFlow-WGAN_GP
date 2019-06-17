@@ -26,16 +26,14 @@ def load_data():
   """
   TRAIN_BUF = 50000
   BATCH_SIZE = 64
-  TEST_BUF = 10000
 
   # load dataset
-  (train_images, _), (test_images, _) = tf.keras.datasets.cifar10.load_data()
+  (train_images, _), (_, _) = tf.keras.datasets.cifar10.load_data()
 
   # split dataset
   train_images = train_images.reshape(train_images.shape[0], 32, 32, 3).astype(
     "float32"
   ) / 255.0
-  test_images = test_images.reshape(test_images.shape[0], 32, 32, 3).astype("float32") / 255.0
 
   # batch datasets
   train_dataset = (
@@ -43,9 +41,4 @@ def load_data():
       .shuffle(TRAIN_BUF)
       .batch(BATCH_SIZE)
   )
-  test_dataset = (
-    tf.data.Dataset.from_tensor_slices(test_images)
-      .shuffle(TEST_BUF)
-      .batch(BATCH_SIZE)
-  )
-  return train_dataset, test_dataset
+  return train_dataset
