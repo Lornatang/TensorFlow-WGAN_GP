@@ -39,7 +39,7 @@ if not os.path.exists(save_path):
   os.makedirs(save_path)
 
 # define random noise
-noise = tf.random.normal([64, 128])
+noise = tf.random.normal([16, 128])
 
 # load dataset
 train_dataset, test_dataset = load_data()

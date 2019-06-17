@@ -25,7 +25,7 @@ def load_data():
 
   """
   TRAIN_BUF = 50000
-  BATCH_SIZE = 64
+  BATCH_SIZE = 16
 
   # load dataset
   (train_images, _), (_, _) = tf.keras.datasets.cifar10.load_data()
