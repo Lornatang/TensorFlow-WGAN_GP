@@ -123,3 +123,4 @@ training_checkpoints/
 # images
 .jpg
 .png
+.DS_Store
