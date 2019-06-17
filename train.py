@@ -14,56 +14,84 @@
 
 """The training loop begins with generator receiving a random seed as input."""
 
-import tensorflow as tf
-import time
 import os
-import argparse
+import time
+
+import tensorflow as tf
 
 from data.datasets import load_data
-from models.generate import make_generator_model
 from models.discriminate import make_discriminator_model
-from util.ops import compute_gradients, apply_gradients
-from util.saver import save_checkpoints, generate_and_save_images
-
-parser = argparse.ArgumentParser()
-parser.add_argument('--epochs', default=50, type=int,
-                    help='Epochs for training.')
-args = parser.parse_args()
-print(args)
+from models.generate import make_generator_model
+from util.ops import gradient_penalty
+from util.saver import generate_and_save_images, save_checkpoints
 
 # define model save path
 save_path = './training_checkpoint'
+
+BUFFER_SIZE = 60000
+BATCH_SIZE = 256
+
+EPOCHS = 50
+noise_dim = 100
+num_examples_to_generate = 16
+
+# We will reuse this seed overtime (so it's easier)
+# to visualize progress in the animated GIF)
+seed = tf.random.normal([num_examples_to_generate, noise_dim])
 
 # create dir
 if not os.path.exists(save_path):
   os.makedirs(save_path)
 
-# define random noise
-noise = tf.random.normal([64, 100])
-
 # load dataset
-train_dataset = load_data()
+train_dataset = load_data(BUFFER_SIZE, BATCH_SIZE)
 
 # load model network
 generator = make_generator_model()
 discriminator = make_discriminator_model()
 
 # load model optim
-gen_optim = tf.optimizers.Adam(0.0001, beta_1=0.5)
-disc_optim = tf.optimizers.RMSprop(0.0005)  # train the model
+generator_optimizer = tf.optimizers.Adam(0.0001, beta_1=0.5)
+discriminator_optimizer = tf.optimizers.RMSprop(0.0005)  # train the model
 
 checkpoint_dir, checkpoint, checkpoint_prefix = save_checkpoints(generator,
                                                                  discriminator,
-                                                                 gen_optim,
-                                                                 disc_optim,
+                                                                 generator_optimizer,
+                                                                 discriminator_optimizer,
                                                                  save_path)
 
 
 # This annotation causes the function to be "compiled".
 @tf.function
-def train_step(img):
-  gen_grad, disc_grad = compute_gradients(img)
-  apply_gradients(gen_grad, disc_grad)
+def train_step(images):
+  noise = tf.random.normal([BATCH_SIZE, noise_dim])
+
+  with tf.GradientTape() as gen_tape, tf.GradientTape() as disc_tape:
+    generated_images = generator(noise, training=True)
+
+    real_output = discriminator(images, training=True)
+    fake_output = discriminator(generated_images, training=True)
+
+    # generator loss
+    gen_loss = tf.reduce_mean(fake_output)
+
+    # gradient penalty
+    regularizer = gradient_penalty(discriminator, images, generated_images)
+
+    # discriminator loss
+    disc_loss = (tf.reduce_mean(real_output) -
+                 tf.reduce_mean(fake_output) +
+                 regularizer * 10.0)
+
+  gradients_of_generator = gen_tape.gradient(gen_loss,
+                                             generator.trainable_variables)
+  gradients_of_discriminator = disc_tape.gradient(disc_loss,
+                                                  discriminator.trainable_variables)
+
+  generator_optimizer.apply_gradients(
+    zip(gradients_of_generator, generator.trainable_variables))
+  discriminator_optimizer.apply_gradients(
+    zip(gradients_of_discriminator, discriminator.trainable_variables))
 
 
 def train(dataset, epochs):
@@ -81,7 +109,7 @@ def train(dataset, epochs):
     # Produce images for the GIF as we go
     generate_and_save_images(generator,
                              epoch + 1,
-                             noise,
+                             seed,
                              save_path)
 
     # Save the model every 15 epochs
@@ -93,9 +121,9 @@ def train(dataset, epochs):
   # Generate after the final epoch
   generate_and_save_images(generator,
                            epochs,
-                           noise,
+                           seed,
                            save_path)
 
 
 if __name__ == '__main__':
-  train(train_dataset, args.epochs)
+  train(train_dataset, EPOCHS)

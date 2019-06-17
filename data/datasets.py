@@ -17,15 +17,13 @@
 import tensorflow as tf
 
 
-def load_data():
+def load_data(buffer_size, batch_size):
   """
 
   Returns:
     tf.keras.datasets.fashion_mnist
 
   """
-  TRAIN_BUF = 60000
-  BATCH_SIZE = 64
 
   # load dataset
   (train_images, _), (_, _) = tf.keras.datasets.fashion_mnist.load_data()
@@ -33,12 +31,12 @@ def load_data():
   # split dataset
   train_images = train_images.reshape(train_images.shape[0], 28, 28, 1).astype(
     "float32"
-  ) / 255.0
+  ) / 127.5
 
   # batch datasets
   train_dataset = (
     tf.data.Dataset.from_tensor_slices(train_images)
-      .shuffle(TRAIN_BUF)
-      .batch(BATCH_SIZE)
+      .shuffle(buffer_size)
+      .batch(batch_size)
   )
   return train_dataset
