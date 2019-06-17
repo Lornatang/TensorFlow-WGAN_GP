@@ -31,13 +31,13 @@ def make_generator_model():
   model.add(layers.Conv2DTranspose(64, (3, 3),
                                    strides=(2, 2),
                                    padding='same',
+                                   activation=tf.nn.relu,
                                    use_bias=False))
-  model.add(layers.ReLU())
   model.add(layers.Conv2DTranspose(32, (3, 3),
                                    strides=(2, 2),
                                    padding='same',
+                                   activation=tf.nn.relu,
                                    use_bias=False))
-  model.add(layers.ReLU())
   model.add(layers.Conv2DTranspose(1, (3, 3),
                                    strides=(1, 1),
                                    padding='same',
