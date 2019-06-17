@@ -26,7 +26,6 @@ def make_generator_model():
 
   """
   model = tf.keras.Sequential()
-<<<<<<< HEAD
   model.add(layers.Dense(8 * 8 * 256, use_bias=False, input_shape=[128, ]))
   model.add(layers.BatchNormalization(axis=3))
   model.add(layers.LeakyReLU())
@@ -46,29 +45,5 @@ def make_generator_model():
 
   model.add(layers.Conv2DTranspose(3, (5, 5), strides=(2, 2), padding='same', use_bias=False, activation='tanh'))
   assert model.output_shape == (None, 32, 32, 3)
-=======
-  model.add(layers.Dense(8 * 8 * 128,
-                         activation=tf.nn.relu,
-                         use_bias=False,
-                         input_shape=[128, ]))
-
-  model.add(layers.Reshape((8, 8, 128)))
-
-  model.add(layers.Conv2DTranspose(128, (3, 3),
-                                   strides=(2, 2),
-                                   padding='same',
-                                   activation=tf.nn.relu,
-                                   use_bias=False))
-  model.add(layers.Conv2DTranspose(64, (3, 3),
-                                   strides=(2, 2),
-                                   padding='same',
-                                   activation=tf.nn.relu,
-                                   use_bias=False))
-  model.add(layers.Conv2DTranspose(3, (3, 3),
-                                   strides=(1, 1),
-                                   padding='same',
-                                   activation=tf.nn.sigmoid,
-                                   use_bias=False))
->>>>>>> parent of f83313c... The structure of generation antagonism model is modified to DCGAN stable structure
 
   return model
