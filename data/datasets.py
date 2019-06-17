@@ -12,7 +12,7 @@
 # limitations under the License.
 # ==============================================================================
 
-"""Load cifar10 datasets from here"""
+"""Load fashion mnist datasets from here"""
 
 import tensorflow as tf
 
@@ -21,17 +21,17 @@ def load_data():
   """
 
   Returns:
-    tf.keras.datasets.cifar10
+    tf.keras.datasets.fashion_mnist
 
   """
-  TRAIN_BUF = 50000
+  TRAIN_BUF = 60000
   BATCH_SIZE = 16
 
   # load dataset
-  (train_images, _), (_, _) = tf.keras.datasets.cifar10.load_data()
+  (train_images, _), (_, _) = tf.keras.datasets.fashion_mnist.load_data()
 
   # split dataset
-  train_images = train_images.reshape(train_images.shape[0], 32, 32, 3).astype(
+  train_images = train_images.reshape(train_images.shape[0], 28, 28, 1).astype(
     "float32"
   ) / 255.0
 

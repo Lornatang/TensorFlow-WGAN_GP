@@ -44,7 +44,7 @@ def make_generator_model():
                                    padding='same',
                                    activation=tf.nn.relu,
                                    use_bias=False))
-  model.add(layers.Conv2DTranspose(3, (3, 3),
+  model.add(layers.Conv2DTranspose(1, (3, 3),
                                    strides=(1, 1),
                                    padding='same',
                                    activation=tf.nn.sigmoid,
