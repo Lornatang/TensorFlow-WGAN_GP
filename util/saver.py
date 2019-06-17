@@ -51,7 +51,7 @@ def generate_and_save_images(model, epoch, seed, save_path):
   Args:
     model: generate model.
     epoch: train epoch nums.
-    seed: random seed at (64, 128).
+    seed: random seed at (16, 256).
     save_path: generate images path.
 
   Returns:
@@ -64,7 +64,7 @@ def generate_and_save_images(model, epoch, seed, save_path):
 
   for i in range(predictions.shape[0]):
     plt.subplot(4, 4, i + 1)
-    plt.imshow(predictions[i, :, :] * 255.0 + 255.0)
+    plt.imshow(predictions[i, :, :, 0] * 255.0 + 255.0)
     plt.axis('off')
 
   plt.savefig(save_path + '/' + f'{epoch:04d}.png')
