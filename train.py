@@ -35,6 +35,9 @@ EPOCHS = 50
 noise_dim = 100
 num_examples_to_generate = 16
 
+# We will reuse this seed overtime (so it's easier)
+# to visualize progress in the animated GIF)
+seed = tf.random.normal([num_examples_to_generate, noise_dim])
 
 # create dir
 if not os.path.exists(save_path):
@@ -97,9 +100,6 @@ def train(dataset, epochs):
     dataset: mnist dataset or cifar10 dataset.
     epochs: number of iterative training.
   """
-
-  seed = tf.random.normal([num_examples_to_generate, noise_dim])
-
   for epoch in range(epochs):
     start = time.time()
 
