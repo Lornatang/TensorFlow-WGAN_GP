@@ -35,7 +35,7 @@ def compute_loss(real_img):
   # pass through network
   # generating noise from a uniform distribution
 
-  z = tf.random.normal([real_img.shape[0], 1, 1, dim])
+  z = tf.random.normal([real_img.shape[0], dim])
 
   # run noise through generator
   generated_images = generator(z)
