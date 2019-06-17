@@ -42,7 +42,7 @@ if not os.path.exists(save_path):
 noise = tf.random.normal([16, 128])
 
 # load dataset
-train_dataset, test_dataset = load_data()
+train_dataset = load_data()
 
 # load model network
 generator = make_generator_model()
