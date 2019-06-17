@@ -30,7 +30,7 @@ def make_generator_model():
   model.add(layers.Dense(8 * 8 * 128,
                          activation=tf.nn.relu,
                          use_bias=False,
-                         input_shape=[128, ]))
+                         input_shape=[256, ]))
 
   model.add(layers.Reshape((8, 8, 128)))
 
