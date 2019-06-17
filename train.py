@@ -64,7 +64,7 @@ checkpoint_dir, checkpoint, checkpoint_prefix = save_checkpoints(generator,
 # This annotation causes the function to be "compiled".
 @tf.function
 def train_step(images):
-  noise = tf.random.normal([BATCH_SIZE, noise_dim])
+  noise = tf.random.normal([BATCH_SIZE, 1, 1, noise_dim])
 
   with tf.GradientTape() as gen_tape, tf.GradientTape() as disc_tape:
     generated_images = generator(noise, training=True)
