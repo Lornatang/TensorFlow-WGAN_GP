@@ -27,12 +27,12 @@ def make_generator_model():
   """
   model = tf.keras.Sequential()
 
-  model.add(layers.Dense(8 * 8 * 128,
+  model.add(layers.Dense(7 * 7 * 128,
                          activation=tf.nn.relu,
                          use_bias=False,
                          input_shape=[256, ]))
 
-  model.add(layers.Reshape((8, 8, 128)))
+  model.add(layers.Reshape((7, 7, 128)))
 
   model.add(layers.Conv2DTranspose(128, (3, 3),
                                    strides=(2, 2),
