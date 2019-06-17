@@ -37,7 +37,7 @@ num_examples_to_generate = 16
 
 # We will reuse this seed overtime (so it's easier)
 # to visualize progress in the animated GIF)
-seed = tf.random.normal([num_examples_to_generate, noise_dim])
+seed = tf.random.normal([num_examples_to_generate, 1, 1, noise_dim])
 
 # create dir
 if not os.path.exists(save_path):
