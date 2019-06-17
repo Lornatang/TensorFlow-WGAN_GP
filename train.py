@@ -22,7 +22,6 @@ import argparse
 from data.datasets import load_data
 from models.generate import make_generator_model
 from models.discriminate import make_discriminator_model
-from util.optim import generator_optimizer, discriminator_optimizer
 from util.ops import compute_gradients, apply_gradients
 from util.saver import save_checkpoints, generate_and_save_images
 
@@ -50,8 +49,8 @@ generator = make_generator_model()
 discriminator = make_discriminator_model()
 
 # load model optim
-gen_optim = generator_optimizer()
-disc_optim = discriminator_optimizer()
+gen_optim = tf.optimizers.Adam(0.0001, beta_1=0.5)
+disc_optim = tf.optimizers.RMSprop(0.0005)  # train the model
 
 checkpoint_dir, checkpoint, checkpoint_prefix = save_checkpoints(generator,
                                                                  discriminator,
