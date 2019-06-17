@@ -26,36 +26,22 @@ def make_generator_model():
 
   """
   model = tf.keras.Sequential()
-  model.add(layers.Dense(7 * 7 * 64,
-                         use_bias=False,
-                         input_shape=(100,)))
-  model.add(layers.BatchNormalization())
-  model.add(layers.ReLU())
-
+  model.add(layers.Dense(7 * 7 * 64))
   model.add(layers.Reshape((7, 7, 64)))
-  assert model.output_shape == (None, 7, 7, 64)  # Note: None is the batch size
-
   model.add(layers.Conv2DTranspose(64, (3, 3),
                                    strides=(2, 2),
                                    padding='same',
                                    use_bias=False))
-  assert model.output_shape == (None, 7, 7, 64)
-  model.add(layers.BatchNormalization())
   model.add(layers.ReLU())
-
   model.add(layers.Conv2DTranspose(32, (3, 3),
                                    strides=(2, 2),
                                    padding='same',
                                    use_bias=False))
-  assert model.output_shape == (None, 14, 14, 32)
-  model.add(layers.BatchNormalization())
   model.add(layers.ReLU())
-
   model.add(layers.Conv2DTranspose(1, (3, 3),
                                    strides=(1, 1),
                                    padding='same',
                                    activation=tf.nn.sigmoid,
                                    use_bias=False))
-  assert model.output_shape == (None, 28, 28, 1)
 
   return model
