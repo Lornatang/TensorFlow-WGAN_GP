@@ -29,7 +29,7 @@ def gradient_penalty(discriminator, real_img, fake_img):
     discriminate regularizer.
 
   """
-  epsilon = tf.random.uniform([256, 1, 1, 1], 0.0, 1.0)
+  epsilon = tf.random.uniform([real_img.shape[0], 1, 1, 1], 0.0, 1.0)
   x_hat = epsilon * real_img + (1 - epsilon) * fake_img
 
   with tf.GradientTape() as gp:
