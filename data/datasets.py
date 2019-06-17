@@ -25,7 +25,7 @@ def load_data():
 
   """
   TRAIN_BUF = 60000
-  BATCH_SIZE = 16
+  BATCH_SIZE = 64
 
   # load dataset
   (train_images, _), (_, _) = tf.keras.datasets.fashion_mnist.load_data()

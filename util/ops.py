@@ -20,7 +20,7 @@ from models.generate import make_generator_model
 from models.discriminate import make_discriminator_model
 
 gradient_penalty_weight = 10.0
-dim = 256
+dim = 100
 
 generator = make_generator_model()
 discriminator = make_discriminator_model()

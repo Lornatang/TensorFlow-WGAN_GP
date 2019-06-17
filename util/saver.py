@@ -60,10 +60,10 @@ def generate_and_save_images(model, epoch, seed, save_path):
   """
   predictions = model(seed, training=False)
 
-  fig = plt.figure(figsize=(4, 4))
+  fig = plt.figure(figsize=(8, 8))
 
   for i in range(predictions.shape[0]):
-    plt.subplot(4, 4, i + 1)
+    plt.subplot(8, 8, i + 1)
     plt.imshow(predictions[i, :, :, 0] * 255.0 + 255.0, cmap='gray')
     plt.axis('off')
 
