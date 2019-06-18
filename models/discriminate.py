@@ -26,7 +26,7 @@ def make_discriminator_model():
 
   """
   model = tf.keras.Sequential()
-  model.add(layers.InputLayer(input_shape=[28, 28, 1]))
+  model.add(layers.InputLayer(input_shape=(28, 28, 1)))
   model.add(layers.Conv2D(64, 3,
                           strides=(2, 2),
                           padding='same',
