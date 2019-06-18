@@ -76,7 +76,16 @@ def train_step(images):
     gen_loss = tf.reduce_mean(fake_output)
 
     # gradient penalty
-    regularizer = gradient_penalty(discriminator, images, generated_images)
+    epsilon = tf.random.uniform([images.shape[0], 1, 1, 1], minval=0.0, maxval=1.0)
+    x_hat = epsilon * images + (1 - epsilon) * generated_images
+
+    with tf.GradientTape() as gp:
+      gp.watch(x_hat)
+      d_hat = discriminator(x_hat)
+
+    gradients = gp.gradient(d_hat, x_hat)
+    ddx = tf.sqrt(tf.reduce_sum(gradients ** 2, axis=[1, 2]))
+    regularizer = tf.reduce_mean((ddx - 1.0) ** 2)
 
     # discriminator loss
     disc_loss = (tf.reduce_mean(real_output) -
