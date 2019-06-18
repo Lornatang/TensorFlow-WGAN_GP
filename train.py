@@ -37,7 +37,7 @@ num_examples_to_generate = 16
 
 # We will reuse this seed overtime (so it's easier)
 # to visualize progress in the animated GIF)
-seed = tf.random.normal([num_examples_to_generate, 1, 1, noise_dim])
+seed = tf.random.normal([num_examples_to_generate, noise_dim])
 
 # create dir
 if not os.path.exists(save_path):
@@ -64,7 +64,7 @@ checkpoint_dir, checkpoint, checkpoint_prefix = save_checkpoints(generator,
 # This annotation causes the function to be "compiled".
 @tf.function
 def train_step(images):
-  noise = tf.random.normal([BATCH_SIZE, 1, 1, noise_dim])
+  noise = tf.random.normal([BATCH_SIZE, noise_dim])
 
   with tf.GradientTape() as gen_tape, tf.GradientTape() as disc_tape:
     generated_images = generator(noise, training=True)
@@ -76,7 +76,7 @@ def train_step(images):
     gen_loss = tf.reduce_mean(fake_output)
 
     # gradient penalty
-    epsilon = tf.random.uniform([images.shape[0], 1, 1, 1], minval=0.0, maxval=1.0)
+    epsilon = tf.random.uniform([BATCH_SIZE, 1, 1, 1], minval=0.0, maxval=1.0)
     x_hat = epsilon * images + (1 - epsilon) * generated_images
 
     with tf.GradientTape() as gp:
