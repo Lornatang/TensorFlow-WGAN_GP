@@ -28,17 +28,17 @@ def make_generator_model():
   model = tf.keras.Sequential()
   model.add(layers.Dense(7 * 7 * 64, activation=tf.nn.relu))
   model.add(layers.Reshape((7, 7, 64)))
-  model.add(layers.Conv2DTranspose(64, (3, 3),
+  model.add(layers.Conv2DTranspose(64, 3,
                                    strides=(2, 2),
                                    padding='same',
                                    activation=tf.nn.relu,
                                    use_bias=False))
-  model.add(layers.Conv2DTranspose(32, (3, 3),
+  model.add(layers.Conv2DTranspose(32, 3,
                                    strides=(2, 2),
                                    padding='same',
                                    activation=tf.nn.relu,
                                    use_bias=False))
-  model.add(layers.Conv2DTranspose(1, (3, 3),
+  model.add(layers.Conv2DTranspose(1, 3,
                                    strides=(1, 1),
                                    padding='same',
                                    activation=tf.nn.sigmoid,
