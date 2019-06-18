@@ -76,7 +76,7 @@ def train_step(images):
     gen_loss = tf.reduce_mean(fake_output)
 
     # gradient penalty
-    epsilon = tf.random.uniform([BATCH_SIZE, 1, 1, 1], minval=0.0, maxval=1.0)
+    epsilon = tf.random.uniform([96, 1, 1, 1], minval=0.0, maxval=1.0)
     x_hat = epsilon * images + (1 - epsilon) * generated_images
 
     with tf.GradientTape() as gp:
